@@ -1,0 +1,84 @@
+/*
+ * Modo escuro por inversão de cores.
+ * Só tem efeito quando o <html> recebe a classe "codxis-dark" (controlada pelo content.js).
+ * A página inteira é invertida e o matiz girado 180° para manter as cores
+ * reconhecíveis; mídias (imagens, vídeos etc.) são invertidas de volta para
+ * aparecerem com as cores originais.
+ */
+
+html.codxis-dark {
+  /* Fundo explícito: sem ele, áreas sem cor ficariam pretas antes da inversão e brancas depois. */
+  background-color: #fff !important;
+  filter: invert(var(--codxis-invert, 0.9)) hue-rotate(180deg) contrast(var(--codxis-contrast, 1)) !important;
+  color-scheme: light !important;
+}
+
+/* Desfaz a inversão em mídias para preservar as cores reais. */
+html.codxis-dark img,
+html.codxis-dark picture,
+html.codxis-dark video,
+html.codxis-dark canvas,
+html.codxis-dark iframe,
+html.codxis-dark embed,
+html.codxis-dark object,
+html.codxis-dark svg image,
+html.codxis-dark [style*="background-image"],
+html.codxis-dark .codxis-keep-colors {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Evita dupla inversão quando a mídia está dentro de outro elemento já re-invertido. */
+html.codxis-dark [style*="background-image"] img,
+html.codxis-dark [style*="background-image"] video,
+html.codxis-dark [style*="background-image"] canvas,
+html.codxis-dark .codxis-keep-colors img,
+html.codxis-dark .codxis-keep-colors video,
+html.codxis-dark .codxis-keep-colors canvas,
+html.codxis-dark picture img {
+  filter: none !important;
+}
+
+/* ---------- Botão flutuante ---------- */
+
+#codxis-theme-toggle {
+  all: initial;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483647;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #1f2937;
+  color: #fbbf24;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0.55;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  user-select: none;
+}
+
+#codxis-theme-toggle:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+#codxis-theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* No modo escuro o botão é re-invertido para manter a aparência original. */
+html.codxis-dark #codxis-theme-toggle {
+  filter: invert(1) hue-rotate(180deg) !important;
+  background: #f3f4f6;
+  color: #f59e0b;
+}
+
+html.codxis-hide-toggle #codxis-theme-toggle {
+  display: none !important;
+}
